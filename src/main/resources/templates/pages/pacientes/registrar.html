@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:replace="~{layouts/panel-layout :: head('Registrar paciente - VetSystem', ~{::link})}">
+  <link rel="stylesheet" th:href="@{/css/registrar-paciente.css}">
+</head>
+
+<body>
+  <div th:replace="~{components/notification :: notification}"></div>
+
+  <div class="panel">
+    <header th:replace="~{layouts/panel-layout :: header}"></header>
+
+    <main class="main-content">
+      <h1>Registrar paciente</h1>
+
+      <form class="registro-form" th:action="@{/panel/pacientes/registrar}" method="post">
+
+        <section class="form-section">
+          <h2 class="form-section__title">Datos mascota</h2>
+
+          <div class="form-group">
+            <label for="mascota-nombre">Nombre</label>
+            <input type="text" id="mascota-nombre" name="mascotaNombre" required>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="mascota-especie">Especie</label>
+              <input type="text" id="mascota-especie" name="mascotaEspecie" required>
+            </div>
+            <div class="form-group">
+              <label for="mascota-raza">Raza</label>
+              <input type="text" id="mascota-raza" name="mascotaRaza">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="mascota-edad">Edad</label>
+            <input type="number" id="mascota-edad" name="mascotaEdad" min="0">
+          </div>
+        </section>
+
+        <section class="form-section">
+          <h2 class="form-section__title">Datos dueño</h2>
+
+          <div class="form-group">
+            <label for="dueno-nombre">Nombre</label>
+            <input type="text" id="dueno-nombre" name="duenoNombre" required>
+          </div>
+
+          <div class="form-group">
+            <label for="dueno-run">RUN</label>
+            <input type="text" id="dueno-run" name="duenoRun" required>
+          </div>
+
+          <div class="form-group">
+            <label for="dueno-fecha-nacimiento">Fecha nacimiento</label>
+            <input type="date" id="dueno-fecha-nacimiento" name="duenoFechaNacimiento">
+          </div>
+        </section>
+
+        <div class="form-actions">
+          <button type="submit" class="btn-registrar">Registrar</button>
+        </div>
+
+      </form>
+    </main>
+
+  </div>
+</body>
+
+</html>

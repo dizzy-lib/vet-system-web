@@ -12,6 +12,7 @@
   <link rel="stylesheet" th:href="@{/css/reset.css}">
   <link rel="stylesheet" th:href="@{/css/root.css}">
   <link rel="stylesheet" th:href="@{/css/panel.css}">
+  <link rel="stylesheet" th:href="@{/css/notification.css}">
   <th:block th:replace="${extraLinks}"></th:block>
 </head>
 
@@ -46,7 +47,7 @@
             <a th:href="@{/panel}" class="menu__link">Inicio</a>
           </li>
           <li class="menu__item">
-            <a th:href="@{/mascotas/registrar}" class="menu__link">Registrar paciente</a>
+            <a th:href="@{/panel/pacientes/registrar}" class="menu__link">Registrar paciente</a>
           </li>
           <li class="menu__item">
             <a th:href="@{/atenciones/agendar}" class="menu__link">Agendar cita</a>
