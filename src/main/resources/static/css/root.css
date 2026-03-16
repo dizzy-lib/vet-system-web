@@ -1,0 +1,18 @@
+body {
+  font-family: 'Roboto', sans-serif;
+  font-size: 1rem;
+}
+
+:root {
+  --ink-black: #0d1b2aff;
+  --prussian-blue: #1b263bff;
+  --dusk-blue: #415a77ff;
+  --dusty-denim: #778da9ff;
+  --alabaster-grey: #e0e1ddff;
+}
+
+.logo {
+  font-size: 1.5rem;
+  color: #fff;
+  font-weight: 700;
+}

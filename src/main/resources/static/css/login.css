@@ -1,3 +1,56 @@
 body {
-  background-color: red;
+  background-color: var(--alabaster-grey);
+}
+
+.login-wrapper {
+  display: flex;
+  flex-flow: column nowrap;
+  margin-inline: auto;
+  justify-content: center;
+  align-items: center;
+  height: 100dvh;
+}
+
+.form-container {
+  display: flex;
+  flex-flow: column nowrap;
+  padding: 2rem;
+  background-color: var(--prussian-blue);
+  border-radius: 0.6rem;
+  width: 50dvw;
+  gap: 2rem;
+}
+
+.form {
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 1rem;
+  color: #fff;
+  font-size: 0.9rem;
+
+  & .form__button,
+  & .form__input {
+    padding-inline: 1rem;
+    padding-block: 0.5rem;
+  }
+
+  & .form__input {
+    border: none;
+    outline: none;
+  }
+
+  & .form__button {
+    align-self: flex-start;
+    background-color: #fff;
+    color: var(--prussian-blue);
+    border: none;
+    border-radius: 0.3rem;
+    margin-top: 1rem;
+    transition: all 0.3s ease;
+
+    &:hover {
+      background-color: #f1f1f1;
+      cursor: pointer;
+    }
+  }
 }
