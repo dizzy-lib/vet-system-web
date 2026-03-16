@@ -6,6 +6,7 @@ import com.vet.vetweb.paciente.Paciente;
 import com.vet.vetweb.paciente.PacienteService;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -66,4 +67,11 @@ public class PublicController {
     }
     return "redirect:/panel/pacientes/registrar";
   }
+
+  @GetMapping("/panel/pacientes")
+  public String getPatient(Model model) {
+      model.addAttribute("pacientes", pacienteService.listar());
+      return "pages/pacientes/ver-todos";
+  }
+  
 }

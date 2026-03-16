@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:replace="~{layouts/panel-layout :: head('Pacientes - VetSystem', ~{})}">
+</head>
+
+<body>
+  <div th:replace="~{components/notification :: notification}"></div>
+
+  <div class="panel">
+    <header th:replace="~{layouts/panel-layout :: header}"></header>
+
+    <main class="main-content">
+      <h1>Todos los pacientes</h1>
+
+      <div th:if="${pacientes.isEmpty()}">
+        <p>No hay pacientes registrados.</p>
+      </div>
+
+      <table th:unless="${pacientes.isEmpty()}">
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Especie</th>
+            <th>Raza</th>
+            <th>Edad</th>
+            <th>Dueño</th>
+            <th>RUN</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="p : ${pacientes}">
+            <td th:text="${p.mascota().nombre()}"></td>
+            <td th:text="${p.mascota().especie()}"></td>
+            <td th:text="${p.mascota().raza() != null ? p.mascota().raza() : '-'}"></td>
+            <td th:text="${p.mascota().edad() != null ? p.mascota().edad() : '-'}"></td>
+            <td th:text="${p.dueno().nombre()}"></td>
+            <td th:text="${p.dueno().run()}"></td>
+          </tr>
+        </tbody>
+      </table>
+    </main>
+
+  </div>
+</body>
+
+</html>
