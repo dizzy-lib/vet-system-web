@@ -1,0 +1,41 @@
+.pacientes-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #fff;
+  border-radius: 8px;
+  border: 1px solid var(--dusty-denim);
+  margin-top: 1.5rem;
+  overflow: hidden;
+}
+
+.pacientes-table thead {
+  background-color: var(--prussian-blue);
+  color: #fff;
+}
+
+.pacientes-table thead th {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+}
+
+.pacientes-table tbody tr {
+  border-bottom: 1px solid var(--alabaster-grey);
+  transition: background-color 0.15s ease;
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  &:hover {
+    background-color: color-mix(in srgb, var(--dusty-denim) 15%, transparent);
+  }
+}
+
+.pacientes-table tbody td {
+  padding: 0.75rem 1rem;
+  font-size: 0.95rem;
+  color: var(--ink-black);
+}
