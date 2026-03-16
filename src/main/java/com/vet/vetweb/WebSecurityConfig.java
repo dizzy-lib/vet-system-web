@@ -22,6 +22,7 @@ public class WebSecurityConfig {
         .authorizeHttpRequests((request) -> request
             .requestMatchers("/").permitAll()
             .requestMatchers("/css/**.css").permitAll()
+            .requestMatchers("/panel/pacientes/registrar").hasRole(Role.ADMIN.name())
             .anyRequest().authenticated())
         .formLogin((form) -> form
             .loginPage("/login")
@@ -36,19 +37,25 @@ public class WebSecurityConfig {
   @Description("In Memory Userdetails service registered since DB doesn't have user table")
   public UserDetailsService users() {
     // The builder will ensure the passwords are encoded before saving in memory
-    UserDetails user = User.builder()
-        .username("user@vet.cl")
+    UserDetails vet = User.builder()
+        .username("vet@vet.cl")
         .password(passwordEncoder().encode("password"))
-        .roles("USER")
+        .roles(Role.VET.name())
         .build();
 
     UserDetails admin = User.builder()
         .username("admin@vet.cl")
         .password(passwordEncoder().encode("password"))
-        .roles("USER", "ADMIN")
+        .roles(Role.ADMIN.name())
         .build();
 
-    return new InMemoryUserDetailsManager(user, admin);
+    UserDetails root = User.builder()
+        .username("root@vet.cl")
+        .password(passwordEncoder().encode("password"))
+        .roles(Role.ROOT.name(), Role.ADMIN.name())
+        .build();
+
+    return new InMemoryUserDetailsManager(vet, admin, root);
   }
 
   @Bean
