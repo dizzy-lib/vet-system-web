@@ -1,12 +1,17 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="content-Type" content="text/html">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-</head>
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{layouts/base :: head('Inicio - VetSystem')}"></head>
 <body>
-  <h1>Bienvenido</h1>
+
+  <header th:replace="~{layouts/base :: header}"></header>
+
+  <main>
+    <h1>Bienvenido</h1>
+  </main>
+
+  <footer th:replace="~{layouts/base :: footer}"></footer>
+
 </body>
 </html>
