@@ -58,6 +58,10 @@
       padding: var(--items-padding);
     }
 
+    & .menu__link {
+      padding-inline: 2.7rem;
+    }
+
     & .menu-list__category {
       padding-block: 1rem;
 
