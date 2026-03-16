@@ -23,8 +23,17 @@
     gap: 1rem;
     border-bottom: solid 1px var(--dusk-blue);
 
-    & svg {
+    & svg.profile {
       width: 2rem;
+    }
+
+    /* Logout action button */
+    & form {
+      align-items: center;
+    }
+
+    & svg.close-session {
+      width: 1rem;
     }
 
     & .user-profile__info {
