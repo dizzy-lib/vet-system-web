@@ -50,27 +50,6 @@
                 d="M9.568 3H5.25A2.25 2.25 0 0 0 3 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 0 0 5.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 0 0 9.568 3Z" />
               <path stroke-linecap="round" stroke-linejoin="round" d="M6 6h.008v.008H6V6Z" />
             </svg>
-            Accesos rápidos
-          </span>
-          <li class="menu__item">
-            <a th:href="@{/panel}" class="menu__link">Inicio</a>
-          </li>
-          <li class="menu__item" sec:authorize="hasRole('ADMIN')">
-            <a th:href="@{/panel/pacientes/registrar}" class="menu__link">Registrar paciente</a>
-          </li>
-          <li class="menu__item">
-            <a th:href="@{/atenciones/agendar}" class="menu__link">Agendar cita</a>
-          </li>
-        </div>
-
-        <div class="menu-list__category">
-          <span class="menu-list__category-name">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-              stroke="currentColor" class="size-6">
-              <path stroke-linecap="round" stroke-linejoin="round"
-                d="M9.568 3H5.25A2.25 2.25 0 0 0 3 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 0 0 5.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 0 0 9.568 3Z" />
-              <path stroke-linecap="round" stroke-linejoin="round" d="M6 6h.008v.008H6V6Z" />
-            </svg>
             Pacientes
           </span>
           <li class="menu__item" sec:authorize="hasRole('ADMIN')">
@@ -92,7 +71,7 @@
             Agenda
           </span>
           <li class="menu__item">
-            <a th:href="@{/panel}" class="menu__link">Solicitar agenda</a>
+            <a th:href="@{/panel/agenda/solicitar}" class="menu__link">Solicitar agenda</a>
           </li>
           <li class="menu__item">
             <a th:href="@{/mascotas/registrar}" class="menu__link">Ver agenda hoy</a>

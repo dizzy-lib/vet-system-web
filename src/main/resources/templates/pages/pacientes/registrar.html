@@ -2,7 +2,8 @@
 <html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head th:replace="~{layouts/panel-layout :: head('Registrar paciente - VetSystem', ~{::link})}">
-  <link rel="stylesheet" th:href="@{/css/registrar-paciente.css}">
+  <link rel="stylesheet" th:href="@{/css/atomos.css}">
+  <link rel="stylesheet" th:href="@{/css/form.css}">
 </head>
 
 <body>
@@ -61,7 +62,7 @@
         </section>
 
         <div class="form-actions">
-          <button type="submit" class="btn-registrar">Registrar</button>
+          <button type="submit" class="btn btn--primary">Registrar</button>
         </div>
 
       </form>

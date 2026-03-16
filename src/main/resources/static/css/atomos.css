@@ -1,0 +1,28 @@
+.btn {
+  border: none;
+  border-radius: 4px;
+  padding: 0.6rem 1.5rem;
+  font-size: 1rem;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+
+  &.btn--primary {
+    background-color: var(--ink-black);
+    color: #fff;
+
+    &:hover {
+      background-color: var(--prussian-blue);
+    }
+  }
+
+  &.btn--secondary {
+    background-color: transparent;
+    color: var(--ink-black);
+    border: 1px solid var(--dusty-denim);
+
+    &:hover {
+      background-color: var(--alabaster-grey);
+    }
+  }
+}

@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:replace="~{layouts/panel-layout :: head('Solicitar agenda - VetSystem', ~{::link})}">
+  <link rel="stylesheet" th:href="@{/css/atomos.css}">
+  <link rel="stylesheet" th:href="@{/css/form.css}">
+  <link rel="stylesheet" th:href="@{/css/agenda.css}">
+</head>
+
+<body>
+  <div th:replace="~{components/notification :: notification}"></div>
+
+  <div class="panel">
+    <header th:replace="~{layouts/panel-layout :: header}"></header>
+
+    <main class="main-content">
+      <h1>Solicitar agenda</h1>
+
+      <!-- ===== PASO 1: buscar mascota ===== -->
+      <div th:if="${paso == 1}">
+
+        <form class="registro-form" th:action="@{/panel/agenda/solicitar}" method="get">
+          <input type="hidden" name="paso" value="1">
+
+          <section class="form-section">
+            <h2 class="form-section__title">Buscar mascota registrada</h2>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="nombre">Nombre de la mascota</label>
+                <input type="text" id="nombre" name="nombre" placeholder="Ej: Firulais" th:value="${nombre}">
+              </div>
+              <div class="form-group">
+                <label for="run">RUN del dueño</label>
+                <input type="text" id="run" name="run" placeholder="Ej: 12345678-9" th:value="${run}">
+              </div>
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="btn btn--primary">Buscar</button>
+            </div>
+          </section>
+        </form>
+
+        <div th:if="${buscado}" class="agenda-resultados">
+          <h2 class="agenda-resultados__titulo">Resultados</h2>
+
+          <p th:if="${#lists.isEmpty(resultados)}" class="agenda-resultados__vacio">
+            No se encontraron mascotas registradas con ese criterio.
+          </p>
+
+          <ul th:unless="${#lists.isEmpty(resultados)}" class="agenda-resultados__lista">
+            <li th:each="paciente : ${resultados}" class="agenda-resultado-card">
+              <div class="agenda-resultado-card__info">
+                <span class="agenda-resultado-card__nombre" th:text="${paciente.mascota().nombre()}">Nombre</span>
+                <span class="agenda-resultado-card__detalle"
+                      th:text="${paciente.mascota().especie()} + (${paciente.mascota().raza()} != null ? ' · ' + ${paciente.mascota().raza()} : '')">
+                  Especie
+                </span>
+                <span class="agenda-resultado-card__dueno"
+                      th:text="'Dueño: ' + ${paciente.dueno().nombre()} + ' (' + ${paciente.dueno().run()} + ')'">
+                  Dueño
+                </span>
+              </div>
+              <a class="btn btn--primary"
+                 th:href="@{/panel/agenda/solicitar(paso=2,mascotaNombre=${paciente.mascota().nombre()},duenoRun=${paciente.dueno().run()})}">
+                Seleccionar
+              </a>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+
+      <!-- ===== PASO 2: seleccionar especialidad, fecha y veterinario ===== -->
+      <div th:if="${paso == 2}">
+
+        <div class="mascota-seleccionada" th:if="${mascotaSeleccionada != null}">
+          <div>
+            <div class="mascota-seleccionada__label">Mascota seleccionada</div>
+            <div class="mascota-seleccionada__nombre" th:text="${mascotaSeleccionada.mascota().nombre()}">Nombre</div>
+            <div class="mascota-seleccionada__detalle"
+                 th:text="${mascotaSeleccionada.mascota().especie()} + (${mascotaSeleccionada.mascota().raza()} != null ? ' · ' + ${mascotaSeleccionada.mascota().raza()} : '')">
+              Especie
+            </div>
+          </div>
+        </div>
+
+        <form class="registro-form" th:action="@{/panel/agenda/solicitar}" method="get">
+          <input type="hidden" name="paso" value="2">
+          <input type="hidden" name="mascotaNombre" th:value="${mascotaNombre}">
+          <input type="hidden" name="duenoRun" th:value="${duenoRun}">
+
+          <section class="form-section">
+            <h2 class="form-section__title">Buscar disponibilidad</h2>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="especialidad">Especialidad</label>
+                <select id="especialidad" name="especialidad" required>
+                  <option value="">Seleccionar especialidad</option>
+                  <option value="general"    th:selected="${especialidad == 'general'}">Atención general</option>
+                  <option value="cardiologia" th:selected="${especialidad == 'cardiologia'}">Cardiología</option>
+                  <option value="nutricion"  th:selected="${especialidad == 'nutricion'}">Nutrición</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="fecha">Fecha</label>
+                <input type="date" id="fecha" name="fecha" required th:value="${fecha}">
+              </div>
+            </div>
+
+            <div class="form-actions">
+              <a th:href="@{/panel/agenda/solicitar}" class="btn btn--secondary">Volver</a>
+              <button type="submit" class="btn btn--primary">Buscar disponibilidad</button>
+            </div>
+          </section>
+        </form>
+
+        <div th:if="${buscadoVet}">
+          <p th:if="${#lists.isEmpty(veterinarios)}" class="agenda-sin-resultados">
+            No hay veterinarios disponibles para esa especialidad en la fecha seleccionada.
+          </p>
+
+          <ul th:unless="${#lists.isEmpty(veterinarios)}" class="vet-lista">
+            <li th:each="disp : ${veterinarios}" class="vet-card">
+              <div class="vet-card__nombre" th:text="${disp.veterinario().nombre()}">Nombre vet</div>
+              <div class="vet-card__horas">
+                <a th:each="hora : ${disp.horas()}"
+                   class="vet-card__hora"
+                   th:href="@{/panel/agenda/solicitar(paso=3,mascotaNombre=${mascotaNombre},duenoRun=${duenoRun},especialidad=${especialidad},fecha=${fecha},vetNombre=${disp.veterinario().nombre()},hora=${#temporals.format(hora,'HH:mm')})}"
+                   th:text="${#temporals.format(hora, 'HH:mm')}">
+                  00:00
+                </a>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+
+      <!-- ===== PASO 3: confirmación ===== -->
+      <div th:if="${paso == 3}">
+
+        <div class="confirmacion-card">
+          <h2 class="confirmacion-card__titulo">Confirmar cita</h2>
+
+          <dl class="confirmacion-card__detalle">
+            <div class="confirmacion-card__fila">
+              <dt>Mascota</dt>
+              <dd th:text="${mascotaSeleccionada != null ? mascotaSeleccionada.mascota().nombre() : mascotaNombre}">-</dd>
+            </div>
+            <div class="confirmacion-card__fila" th:if="${mascotaSeleccionada != null}">
+              <dt>Especie</dt>
+              <dd th:text="${mascotaSeleccionada.mascota().especie()}">-</dd>
+            </div>
+            <div class="confirmacion-card__fila">
+              <dt>Veterinario</dt>
+              <dd th:text="${vetNombre}">-</dd>
+            </div>
+            <div class="confirmacion-card__fila">
+              <dt>Especialidad</dt>
+              <dd th:text="${especialidad}">-</dd>
+            </div>
+            <div class="confirmacion-card__fila">
+              <dt>Fecha</dt>
+              <dd th:text="${#temporals.format(#temporals.createDate(fecha), 'dd/MM/yyyy')}">-</dd>
+            </div>
+            <div class="confirmacion-card__fila">
+              <dt>Hora</dt>
+              <dd th:text="${hora}">-</dd>
+            </div>
+          </dl>
+
+          <div class="confirmacion-card__acciones">
+            <a class="btn btn--secondary"
+               th:href="@{/panel/agenda/solicitar(paso=2,mascotaNombre=${mascotaNombre},duenoRun=${duenoRun},especialidad=${especialidad},fecha=${fecha},buscadoVet=true)}">
+              Cancelar
+            </a>
+            <form th:action="@{/panel/agenda/confirmar}" method="post">
+              <input type="hidden" name="mascotaNombre"     th:value="${mascotaNombre}">
+              <input type="hidden" name="duenoRun"          th:value="${duenoRun}">
+              <input type="hidden" name="veterinarioNombre" th:value="${vetNombre}">
+              <input type="hidden" name="especialidad"      th:value="${especialidad}">
+              <input type="hidden" name="fecha"             th:value="${fecha}">
+              <input type="hidden" name="hora"              th:value="${hora}">
+              <button type="submit" class="btn btn--primary">Confirmar cita</button>
+            </form>
+          </div>
+        </div>
+
+      </div>
+
+    </main>
+  </div>
+</body>
+
+</html>
