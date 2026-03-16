@@ -11,14 +11,73 @@
     rel="stylesheet">
   <link rel="stylesheet" th:href="@{/css/reset.css}">
   <link rel="stylesheet" th:href="@{/css/root.css}">
+  <link rel="stylesheet" th:href="@{/css/panel.css}">
   <th:block th:replace="${extraLinks}"></th:block>
 </head>
 
 <body>
 
   <header th:fragment="header">
-    <nav>
-     test
+    <nav class="side-nav">
+      <div class="user-profile">
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+            stroke="currentColor" class="size-6">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+          </svg>
+        </div>
+        <div class="user-profile__info">
+          <span>Nombre usuario</span>
+        </div>
+      </div>
+      <ul class="menu-list">
+        <div class="menu-list__category">
+          <span class="menu-list__category-name">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+              stroke="currentColor" class="size-6">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M9.568 3H5.25A2.25 2.25 0 0 0 3 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 0 0 5.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 0 0 9.568 3Z" />
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6 6h.008v.008H6V6Z" />
+            </svg>
+
+
+            Accesos rápidos
+          </span>
+          <li class="menu__item">
+            <a th:href="@{/panel}" class="menu__link">Inicio</a>
+          </li>
+          <li class="menu__item">
+            <a th:href="@{/mascotas/registrar}" class="menu__link">Registrar paciente</a>
+          </li>
+          <li class="menu__item">
+            <a th:href="@{/atenciones/agendar}" class="menu__link">Agendar cita</a>
+          </li>
+        </div>
+
+        <div class="menu-list__category">
+          <span class="menu-list__category-name">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+              stroke="currentColor" class="size-6">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M9.568 3H5.25A2.25 2.25 0 0 0 3 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 0 0 5.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 0 0 9.568 3Z" />
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6 6h.008v.008H6V6Z" />
+            </svg>
+
+
+            Accesos rápidos
+          </span>
+          <li class="menu__item">
+            <a th:href="@{/panel}" class="menu__link">Inicio</a>
+          </li>
+          <li class="menu__item">
+            <a th:href="@{/mascotas/registrar}" class="menu__link">Registrar paciente</a>
+          </li>
+          <li class="menu__item">
+            <a th:href="@{/atenciones/agendar}" class="menu__link">Agendar cita</a>
+          </li>
+        </div>
+      </ul>
     </nav>
   </header>
 

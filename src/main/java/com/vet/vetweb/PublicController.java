@@ -21,7 +21,7 @@ public class PublicController {
 
   @GetMapping("/panel")
   public String panel() {
-      return "pages/home";
+      return "pages/panel";
   }
   
 }
