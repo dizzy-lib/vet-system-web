@@ -37,6 +37,7 @@ body {
   & .form__input {
     border: none;
     outline: none;
+    color: #000;
   }
 
   & .form__button {
