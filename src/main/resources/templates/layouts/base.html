@@ -21,7 +21,10 @@
       <a th:href="@{/}">Inicio</a>
       <span sec:authorize="isAuthenticated()">
         | <a th:href="@{/dashboard}">Dashboard</a>
-        | <a th:href="@{/logout}">Cerrar sesión</a>
+        |
+        <form th:action="@{/logout}" method="post">
+        <button type="submit">Cerrar sesión</button>
+      </form>
       </span>
       <span sec:authorize="!isAuthenticated()">
         | <a th:href="@{/login}">Iniciar sesión</a>

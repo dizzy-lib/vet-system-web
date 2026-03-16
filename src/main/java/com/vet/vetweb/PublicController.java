@@ -1,5 +1,6 @@
 package com.vet.vetweb;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -11,7 +12,10 @@ public class PublicController {
   }
 
   @GetMapping("/login")
-  public String login() {
+  public String login(Authentication authentication) {
+    if (authentication != null && authentication.isAuthenticated()) {
+      return "redirect:/";
+    }
     return "views/login";
   }
 }
