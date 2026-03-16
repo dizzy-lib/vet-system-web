@@ -14,8 +14,14 @@ public class PublicController {
   @GetMapping("/login")
   public String login(Authentication authentication) {
     if (authentication != null && authentication.isAuthenticated()) {
-      return "redirect:/";
+      return "redirect:/panel";
     }
     return "views/login";
   }
+
+  @GetMapping("/panel")
+  public String panel() {
+      return "pages/home";
+  }
+  
 }
