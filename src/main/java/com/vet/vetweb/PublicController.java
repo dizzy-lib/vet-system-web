@@ -164,16 +164,21 @@ public class PublicController {
       @RequestParam String hora,
       RedirectAttributes redirectAttributes
   ) {
-      citaService.agendar(new Cita(
-          mascotaNombre,
-          duenoRun,
-          veterinarioNombre,
-          especialidad,
-          LocalDate.parse(fecha),
-          LocalTime.parse(hora)
-      ));
-      redirectAttributes.addFlashAttribute("notificacionTipo", "success");
-      redirectAttributes.addFlashAttribute("notificacionMensaje", "Cita agendada correctamente para " + mascotaNombre + " el " + fecha + " a las " + hora + ".");
+      try {
+          citaService.agendar(new Cita(
+              mascotaNombre,
+              duenoRun,
+              veterinarioNombre,
+              especialidad,
+              LocalDate.parse(fecha),
+              LocalTime.parse(hora)
+          ));
+          redirectAttributes.addFlashAttribute("notificacionTipo", "success");
+          redirectAttributes.addFlashAttribute("notificacionMensaje", "Cita agendada correctamente para " + mascotaNombre + " el " + fecha + " a las " + hora + ".");
+      } catch (IllegalStateException e) {
+          redirectAttributes.addFlashAttribute("notificacionTipo", "error");
+          redirectAttributes.addFlashAttribute("notificacionMensaje", e.getMessage());
+      }
       return "redirect:/panel/agenda/solicitar";
   }
 

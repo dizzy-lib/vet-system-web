@@ -3,6 +3,7 @@ package com.vet.vetweb.agenda;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -33,6 +34,13 @@ public class CitaService {
         return citas.stream()
             .filter(c -> c.fecha().equals(hoy) && c.veterinarioNombre().equals(veterinarioNombre))
             .sorted(Comparator.comparing(Cita::hora))
+            .toList();
+    }
+
+    public List<LocalTime> horasOcupadas(String veterinarioNombre, LocalDate fecha) {
+        return citas.stream()
+            .filter(c -> c.veterinarioNombre().equals(veterinarioNombre) && c.fecha().equals(fecha))
+            .map(Cita::hora)
             .toList();
     }
 }

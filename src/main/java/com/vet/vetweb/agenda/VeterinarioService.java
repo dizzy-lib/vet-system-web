@@ -1,5 +1,6 @@
 package com.vet.vetweb.agenda;
 
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -9,6 +10,8 @@ import java.util.Optional;
 
 @Service
 public class VeterinarioService {
+
+    private final CitaService citaService;
 
     private final List<Veterinario> veterinarios = List.of(
         new Veterinario("Dr. Carlos Mendoza", "general",    "c.mendoza@vet.cl"),
@@ -25,10 +28,20 @@ public class VeterinarioService {
         LocalTime.of(16, 0)
     );
 
+    public VeterinarioService(@Lazy CitaService citaService) {
+        this.citaService = citaService;
+    }
+
     public List<DisponibilidadVeterinario> buscarDisponibles(String especialidad, LocalDate fecha) {
         return veterinarios.stream()
             .filter(v -> v.especialidad().equals(especialidad))
-            .map(v -> new DisponibilidadVeterinario(v, horasDisponibles))
+            .map(v -> {
+                List<LocalTime> ocupadas = citaService.horasOcupadas(v.nombre(), fecha);
+                List<LocalTime> libres = horasDisponibles.stream()
+                    .filter(h -> !ocupadas.contains(h))
+                    .toList();
+                return new DisponibilidadVeterinario(v, libres);
+            })
             .toList();
     }
 
