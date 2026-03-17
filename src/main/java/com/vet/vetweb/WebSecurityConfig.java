@@ -22,10 +22,12 @@ public class WebSecurityConfig {
         .authorizeHttpRequests((request) -> request
             .requestMatchers("/").permitAll()
             .requestMatchers("/css/**.css").permitAll()
+            .requestMatchers("/panel").hasAnyRole(Role.ADMIN.name(), Role.VET.name())
             .requestMatchers("/panel/pacientes/registrar").hasRole(Role.ADMIN.name())
             .requestMatchers("/panel/pacientes").hasRole(Role.ADMIN.name())
             .requestMatchers("/panel/agenda/solicitar").hasRole(Role.ADMIN.name())
-            .requestMatchers("/panel/atenciones").permitAll()
+            .requestMatchers("/panel/agenda/hoy").hasAnyRole(Role.ADMIN.name(), Role.VET.name())
+            .requestMatchers("/panel/atenciones/**").hasAnyRole(Role.ADMIN.name(), Role.VET.name())
             .anyRequest().authenticated())
         .formLogin((form) -> form
             .loginPage("/login")

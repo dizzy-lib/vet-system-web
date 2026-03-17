@@ -1,5 +1,3 @@
-/* ======= LISTA DE ATENCIONES ======= */
-
 .atenciones-sin-resultados {
   font-size: 0.9rem;
   color: var(--dusty-denim);
@@ -76,8 +74,6 @@
   color: var(--dusty-denim);
   white-space: nowrap;
 }
-
-/* ======= DETALLE DE ATENCIÓN ======= */
 
 .atencion-back-link {
   display: inline-block;
