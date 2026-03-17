@@ -75,15 +75,27 @@
 
           <div class="atencion-campo">
             <label class="atencion-campo__label">Medicamentos recetados</label>
-            <textarea th:if="${esVetDeLaCita}"
-                      class="atencion-campo__textarea"
-                      name="medicamentos"
-                      rows="4"
-                      th:text="${atencion?.medicamentos}"></textarea>
-            <p th:unless="${esVetDeLaCita}"
-               class="atencion-campo__valor"
-               th:classappend="${atencion?.medicamentos == null ? ' atencion-campo__vacio' : ''}"
-               th:text="${atencion?.medicamentos ?: 'Sin registrar'}">Sin registrar</p>
+
+            <div th:if="${esVetDeLaCita}" class="atencion-campo__medicamentos">
+              <div th:each="med, medStat : ${medicamentos}" class="atencion-campo__medicamento-item">
+                <input type="checkbox"
+                       th:id="|med-${medStat.index}|"
+                       name="medicamentosSeleccionados"
+                       th:value="${med.nombre()}"
+                       th:checked="${atencion?.medicamentosSeleccionados != null and #lists.contains(atencion.medicamentosSeleccionados(), med.nombre())}">
+                <label th:for="|med-${medStat.index}|"
+                       th:text="|${med.nombre()} — $ ${#numbers.formatInteger(med.precio(), 1, 'POINT')}|">Medicamento</label>
+              </div>
+            </div>
+
+            <div th:unless="${esVetDeLaCita}">
+              <p th:if="${atencion?.medicamentosSeleccionados == null or atencion.medicamentosSeleccionados().isEmpty()}"
+                 class="atencion-campo__valor atencion-campo__vacio">Sin registrar</p>
+              <ul th:if="${atencion?.medicamentosSeleccionados != null and !atencion.medicamentosSeleccionados().isEmpty()}"
+                  class="atencion-campo__medicamentos-lista">
+                <li th:each="med : ${atencion.medicamentosSeleccionados()}" th:text="${med}"></li>
+              </ul>
+            </div>
           </div>
 
           <div class="atencion-campo">
@@ -101,7 +113,7 @@
 
           <div class="atencion-detalle__acciones">
             <button th:if="${esVetDeLaCita}" type="submit" class="btn btn--secondary">Guardar cambios</button>
-            <button type="button" class="btn btn--primary">Generar factura</button>
+            <a th:href="@{/panel/atenciones/{index}/factura(index=${index})}" class="btn btn--primary">Ver factura</a>
           </div>
 
         </form>

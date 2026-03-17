@@ -3,6 +3,10 @@ package com.vet.vetweb;
 import com.vet.vetweb.agenda.Cita;
 import com.vet.vetweb.agenda.CitaService;
 import com.vet.vetweb.agenda.VeterinarioService;
+import com.vet.vetweb.atencion.Atencion;
+import com.vet.vetweb.atencion.AtencionService;
+import com.vet.vetweb.medicamento.Medicamento;
+import com.vet.vetweb.medicamento.MedicamentoService;
 import com.vet.vetweb.paciente.Dueno;
 import com.vet.vetweb.paciente.Mascota;
 import com.vet.vetweb.paciente.Paciente;
@@ -16,12 +20,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.List;
-
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Controller
 public class PublicController {
@@ -29,11 +35,23 @@ public class PublicController {
   private final PacienteService pacienteService;
   private final VeterinarioService veterinarioService;
   private final CitaService citaService;
+  private final AtencionService atencionService;
+  private final MedicamentoService medicamentoService;
 
-  public PublicController(PacienteService pacienteService, VeterinarioService veterinarioService, CitaService citaService) {
+  private static final Map<String, Integer> PRECIOS_CONSULTA = Map.of(
+      "general", 15000,
+      "cardiologia", 40000,
+      "nutricion", 20000
+  );
+
+  public PublicController(PacienteService pacienteService, VeterinarioService veterinarioService,
+                          CitaService citaService, AtencionService atencionService,
+                          MedicamentoService medicamentoService) {
     this.pacienteService = pacienteService;
     this.veterinarioService = veterinarioService;
     this.citaService = citaService;
+    this.atencionService = atencionService;
+    this.medicamentoService = medicamentoService;
   }
 
   @GetMapping("/")
@@ -204,7 +222,63 @@ public class PublicController {
           .map(vet -> vet.nombre().equals(cita.veterinarioNombre()))
           .orElse(false);
       model.addAttribute("esVetDeLaCita", esVetDeLaCita);
+      model.addAttribute("atencion", atencionService.buscar(index).orElse(null));
+      model.addAttribute("medicamentos", medicamentoService.listar());
 
       return "pages/atenciones/ver";
+  }
+
+  @PostMapping("/panel/atenciones/{index}/guardar")
+  public String guardarAtencion(
+      @PathVariable int index,
+      @RequestParam(required = false) String diagnostico,
+      @RequestParam(required = false) String tratamiento,
+      @RequestParam(value = "medicamentosSeleccionados", required = false) List<String> medicamentosSeleccionados,
+      @RequestParam(required = false) String notasMedicas,
+      RedirectAttributes redirectAttributes
+  ) {
+      atencionService.guardar(index, new Atencion(
+          diagnostico,
+          tratamiento,
+          medicamentosSeleccionados != null ? medicamentosSeleccionados : List.of(),
+          notasMedicas
+      ));
+      redirectAttributes.addFlashAttribute("notificacionTipo", "success");
+      redirectAttributes.addFlashAttribute("notificacionMensaje", "Atención guardada correctamente.");
+      return "redirect:/panel/atenciones/" + index;
+  }
+
+  @GetMapping("/panel/atenciones/{index}/factura")
+  public String verFactura(@PathVariable int index, Model model) {
+      List<Cita> citas = citaService.listar();
+      if (index < 0 || index >= citas.size()) {
+          return "redirect:/panel/atenciones";
+      }
+      Cita cita = citas.get(index);
+      Atencion atencion = atencionService.buscar(index).orElse(null);
+
+      int precioConsulta = PRECIOS_CONSULTA.getOrDefault(cita.especialidad().toLowerCase(), 0);
+
+      List<Medicamento> medicamentosFactura = atencion == null ? List.of() :
+          atencion.medicamentosSeleccionados().stream()
+              .map(medicamentoService::buscarPorNombre)
+              .filter(Optional::isPresent)
+              .map(Optional::get)
+              .collect(Collectors.toList());
+
+      int totalMedicamentos = medicamentosFactura.stream().mapToInt(Medicamento::precio).sum();
+      int subtotal = precioConsulta + totalMedicamentos;
+      int iva = (int) Math.round(subtotal * 0.19);
+      int total = subtotal + iva;
+
+      model.addAttribute("cita", cita);
+      model.addAttribute("index", index);
+      model.addAttribute("precioConsulta", precioConsulta);
+      model.addAttribute("medicamentosFactura", medicamentosFactura);
+      model.addAttribute("subtotal", subtotal);
+      model.addAttribute("iva", iva);
+      model.addAttribute("total", total);
+
+      return "pages/atenciones/factura";
   }
 }

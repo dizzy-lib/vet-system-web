@@ -1,0 +1,88 @@
+.factura-detalle {
+  max-width: 720px;
+}
+
+.factura-card {
+  background-color: #fff;
+  border: 1px solid var(--dusty-denim);
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-top: 2rem;
+}
+
+.factura-card__titulo {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--dusty-denim);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 1.25rem;
+}
+
+.factura-tabla {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+
+.factura-tabla thead th {
+  text-align: left;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--dusty-denim);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 0 0.5rem 0.75rem;
+  border-bottom: 1px solid var(--alabaster-grey);
+}
+
+.factura-tabla__precio {
+  text-align: right !important;
+}
+
+.factura-tabla tbody td {
+  padding: 0.65rem 0.5rem;
+  color: var(--ink-black);
+  border-bottom: 1px solid var(--alabaster-grey);
+}
+
+.factura-tabla tbody td:last-child {
+  text-align: right;
+  white-space: nowrap;
+}
+
+.factura-tabla__vacio td {
+  color: var(--dusty-denim);
+  font-style: italic;
+  text-align: center;
+  padding: 1rem 0.5rem;
+}
+
+.factura-tabla tfoot td {
+  padding: 0.65rem 0.5rem;
+}
+
+.factura-tabla tfoot td:last-child {
+  text-align: right;
+  white-space: nowrap;
+}
+
+.factura-tabla__subtotal td {
+  color: var(--dusk-blue);
+  font-weight: 500;
+  border-top: 1px solid var(--alabaster-grey);
+  padding-top: 1rem;
+}
+
+.factura-tabla__iva td {
+  color: var(--dusty-denim);
+  font-size: 0.9rem;
+}
+
+.factura-tabla__total td {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--prussian-blue);
+  border-top: 2px solid var(--dusk-blue);
+  padding-top: 0.75rem;
+}

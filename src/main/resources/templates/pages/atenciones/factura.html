@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{layouts/panel-layout :: head('Factura - VetSystem', ~{::link})}">
+  <link rel="stylesheet" th:href="@{/css/atomos.css}">
+  <link rel="stylesheet" th:href="@{/css/atenciones.css}">
+  <link rel="stylesheet" th:href="@{/css/factura.css}">
+</head>
+
+<body>
+  <div th:replace="~{components/notification :: notification}"></div>
+
+  <div class="panel">
+    <header th:replace="~{layouts/panel-layout :: header}"></header>
+
+    <main class="main-content">
+      <div class="factura-detalle">
+
+        <a th:href="@{/panel/atenciones/{index}(index=${index})}" class="atencion-back-link">← Volver a la atención</a>
+        <h1>Factura</h1>
+
+        <div class="atencion-detalle__cita-card">
+          <p class="atencion-detalle__cita-titulo">Datos de la cita</p>
+          <dl class="atencion-detalle__cita-info">
+            <div class="atencion-detalle__cita-fila">
+              <dt>Paciente</dt>
+              <dd th:text="${cita.mascotaNombre()}">Mascota</dd>
+            </div>
+            <div class="atencion-detalle__cita-fila">
+              <dt>Fecha</dt>
+              <dd th:text="${#temporals.format(cita.fecha(), 'dd/MM/yyyy')}">01/01/2025</dd>
+            </div>
+            <div class="atencion-detalle__cita-fila">
+              <dt>Hora</dt>
+              <dd th:text="${#temporals.format(cita.hora(), 'HH:mm')}">00:00</dd>
+            </div>
+            <div class="atencion-detalle__cita-fila">
+              <dt>Veterinario</dt>
+              <dd th:text="${cita.veterinarioNombre()}">Veterinario</dd>
+            </div>
+            <div class="atencion-detalle__cita-fila">
+              <dt>Especialidad</dt>
+              <dd th:text="${cita.especialidad()}">Especialidad</dd>
+            </div>
+          </dl>
+        </div>
+
+        <div class="factura-card">
+          <p class="factura-card__titulo">Detalle de cobros</p>
+
+          <table class="factura-tabla">
+            <thead>
+              <tr>
+                <th class="factura-tabla__concepto">Concepto</th>
+                <th class="factura-tabla__precio">Precio neto</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td th:text="|Consulta — ${cita.especialidad()}|">Consulta</td>
+                <td th:text="|$ ${#numbers.formatInteger(precioConsulta, 1, 'POINT')}|">$ 0</td>
+              </tr>
+              <tr th:each="med : ${medicamentosFactura}">
+                <td th:text="${med.nombre()}">Medicamento</td>
+                <td th:text="|$ ${#numbers.formatInteger(med.precio(), 1, 'POINT')}|">$ 0</td>
+              </tr>
+              <tr th:if="${medicamentosFactura.isEmpty()}">
+                <td class="factura-tabla__vacio" colspan="2">Sin medicamentos recetados</td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr class="factura-tabla__subtotal">
+                <td>Subtotal neto</td>
+                <td th:text="|$ ${#numbers.formatInteger(subtotal, 1, 'POINT')}|">$ 0</td>
+              </tr>
+              <tr class="factura-tabla__iva">
+                <td>IVA (19%)</td>
+                <td th:text="|$ ${#numbers.formatInteger(iva, 1, 'POINT')}|">$ 0</td>
+              </tr>
+              <tr class="factura-tabla__total">
+                <td>Total a pagar</td>
+                <td th:text="|$ ${#numbers.formatInteger(total, 1, 'POINT')}|">$ 0</td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+
+      </div>
+    </main>
+  </div>
+</body>
+
+</html>
