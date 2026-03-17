@@ -1,5 +1,5 @@
 body {
-  background-color: var(--alabaster-grey);
+  background-color: var(--ink-black);
 }
 
 .login-wrapper {
@@ -25,7 +25,7 @@ body {
   display: flex;
   flex-flow: column nowrap;
   gap: 1rem;
-  color: #fff;
+  color: var(--alabaster-grey);
   font-size: 0.9rem;
 
   & .form__button,
@@ -35,23 +35,41 @@ body {
   }
 
   & .form__input {
-    border: none;
+    border: 1px solid var(--dusk-blue);
     outline: none;
-    color: #000;
+    background-color: var(--ink-black);
+    color: var(--alabaster-grey);
+    border-radius: 0.3rem;
+
+    &::placeholder {
+      color: var(--alabaster-grey);
+    }
+
+    &:focus {
+      border-color: var(--dusty-denim);
+    }
   }
 
   & .form__button {
     align-self: flex-start;
-    background-color: #fff;
-    color: var(--prussian-blue);
-    border: none;
-    border-radius: 0.3rem;
     margin-top: 1rem;
-    transition: all 0.3s ease;
+    background-color: var(--alabaster-grey);
+    color: var(--ink-black);
+    font-weight: 600;
 
     &:hover {
-      background-color: #f1f1f1;
-      cursor: pointer;
+      background-color: #fff;
     }
+  }
+}
+
+.back-link {
+  color: #fff;
+  font-size: 0.85rem;
+  text-decoration: none;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: var(--alabaster-grey);
   }
 }

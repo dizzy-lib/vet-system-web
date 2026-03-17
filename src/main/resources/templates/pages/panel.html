@@ -1,16 +1,18 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
-<head th:replace="~{layouts/panel-layout :: head('Inicio - VetSystem', ~{})}"></head>
+<head th:replace="~{layouts/panel-layout :: head('Panel - VetSystem', ~{})}"></head>
 
 <body>
   <div class="panel">
     <header th:replace="~{layouts/panel-layout :: header}"></header>
 
     <main class="main-content">
-      <h1>Home</h1>
+      <h1>Bienvenido al panel</h1>
+      <p style="margin-top: 0.5rem; color: var(--dusk-blue); font-size: 0.95rem;">
+        Usa el menú lateral para navegar.
+      </p>
     </main>
-
   </div>
 </body>
 

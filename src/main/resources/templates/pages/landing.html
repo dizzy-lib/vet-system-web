@@ -2,16 +2,22 @@
 <html lang="es"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<head th:replace="~{layouts/base :: head('Inicio - VetSystem', ~{})}"></head>
+
+<head th:replace="~{layouts/base :: head('Inicio - VetSystem', ~{:: #extra})}">
+  <th:block id="extra">
+    <link rel="stylesheet" th:href="@{/css/landing.css}">
+  </th:block>
+</head>
+
 <body>
-
-  <header th:replace="~{layouts/base :: header}"></header>
-
-  <main>
-    <h1>Bienvenido</h1>
+  <main class="landing">
+    <h1 class="landing__title">VetSystem</h1>
+    <p class="landing__subtitle">Sistema de gestión veterinaria</p>
+    <div class="landing__actions">
+      <a th:href="@{/login}" class="landing__link landing__link--primary" sec:authorize="!isAuthenticated()">Iniciar sesión</a>
+      <a th:href="@{/panel}" class="landing__link landing__link--primary" sec:authorize="isAuthenticated()">Ir al panel</a>
+    </div>
   </main>
-
-  <footer th:replace="~{layouts/base :: footer}"></footer>
-
 </body>
+
 </html>
