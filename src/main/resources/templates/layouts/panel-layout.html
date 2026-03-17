@@ -29,7 +29,7 @@
           </svg>
         </div>
         <div class="user-profile__info">
-          <span>Nombre usuario</span>
+          <span sec:authentication="name">usuario@email.com</span>
         </div>
         <form th:action="@{/logout}" method="post">
           <button type="submit">
@@ -42,7 +42,7 @@
         </form>
       </div>
       <ul class="menu-list">
-        <div class="menu-list__category">
+        <div class="menu-list__category"  sec:authorize="hasRole('ADMIN')">
           <span class="menu-list__category-name">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
               stroke="currentColor" class="size-6">
@@ -52,7 +52,7 @@
             </svg>
             Pacientes
           </span>
-          <li class="menu__item" sec:authorize="hasRole('ADMIN')">
+          <li class="menu__item">
             <a th:href="@{/panel/pacientes/registrar}" class="menu__link">Registrar paciente</a>
           </li>
           <li class="menu__item">
@@ -70,7 +70,7 @@
             </svg>
             Agenda
           </span>
-          <li class="menu__item">
+          <li class="menu__item" sec:authorize="hasRole('ADMIN')">
             <a th:href="@{/panel/agenda/solicitar}" class="menu__link">Solicitar agenda</a>
           </li>
           <li class="menu__item">

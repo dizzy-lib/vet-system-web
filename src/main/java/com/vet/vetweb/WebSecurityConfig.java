@@ -23,6 +23,9 @@ public class WebSecurityConfig {
             .requestMatchers("/").permitAll()
             .requestMatchers("/css/**.css").permitAll()
             .requestMatchers("/panel/pacientes/registrar").hasRole(Role.ADMIN.name())
+            .requestMatchers("/panel/pacientes").hasRole(Role.ADMIN.name())
+            .requestMatchers("/panel/agenda/solicitar").hasRole(Role.ADMIN.name())
+            .requestMatchers("/panel/atenciones").permitAll()
             .anyRequest().authenticated())
         .formLogin((form) -> form
             .loginPage("/login")
@@ -37,9 +40,21 @@ public class WebSecurityConfig {
   @Description("In Memory Userdetails service registered since DB doesn't have user table")
   public UserDetailsService users() {
     // The builder will ensure the passwords are encoded before saving in memory
-    UserDetails vet = User.builder()
-        .username("vet@vet.cl")
-        .password(passwordEncoder().encode("password"))
+    UserDetails cMendoza = User.builder()
+        .username("c.mendoza@vet.cl")
+        .password(passwordEncoder().encode("c.mendoza"))
+        .roles(Role.VET.name())
+        .build();
+
+    UserDetails pSoto = User.builder()
+        .username("p.soto@vet.cl")
+        .password(passwordEncoder().encode("p.soto"))
+        .roles(Role.VET.name())
+        .build();
+
+    UserDetails mFuentes = User.builder()
+        .username("m.fuentes@vet.cl")
+        .password(passwordEncoder().encode("m.fuentes"))
         .roles(Role.VET.name())
         .build();
 
@@ -49,13 +64,7 @@ public class WebSecurityConfig {
         .roles(Role.ADMIN.name())
         .build();
 
-    UserDetails root = User.builder()
-        .username("root@vet.cl")
-        .password(passwordEncoder().encode("password"))
-        .roles(Role.ROOT.name(), Role.ADMIN.name())
-        .build();
-
-    return new InMemoryUserDetailsManager(vet, admin, root);
+    return new InMemoryUserDetailsManager(cMendoza, pSoto, mFuentes, admin);
   }
 
   @Bean

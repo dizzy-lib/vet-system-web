@@ -11,11 +11,9 @@ import java.util.Optional;
 public class VeterinarioService {
 
     private final List<Veterinario> veterinarios = List.of(
-        new Veterinario("Dr. Carlos Mendoza", "general",    "vet@vet.cl"),
-        new Veterinario("Dra. Ana Rojas",      "general",    null),
-        new Veterinario("Dr. Pablo Soto",      "cardiologia", null),
-        new Veterinario("Dra. María Fuentes",  "nutricion",  null),
-        new Veterinario("Dr. Luis Herrera",    "cardiologia", null)
+        new Veterinario("Dr. Carlos Mendoza", "general",    "c.mendoza@vet.cl"),
+        new Veterinario("Dr. Pablo Soto",      "cardiologia", "p.soto@vet.cl"),
+        new Veterinario("Dra. María Fuentes",  "nutricion",  "m.fuentes@vet.cl")
     );
 
     private final List<LocalTime> horasDisponibles = List.of(
