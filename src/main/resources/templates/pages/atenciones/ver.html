@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{layouts/panel-layout :: head('Atención - VetSystem', ~{::link})}">
+  <link rel="stylesheet" th:href="@{/css/atomos.css}">
+  <link rel="stylesheet" th:href="@{/css/atenciones.css}">
+</head>
+
+<body>
+  <div th:replace="~{components/notification :: notification}"></div>
+
+  <div class="panel">
+    <header th:replace="~{layouts/panel-layout :: header}"></header>
+
+    <main class="main-content">
+      <div class="atencion-detalle">
+
+        <a th:href="@{/panel/atenciones}" class="atencion-back-link">← Volver a atenciones</a>
+        <h1>Atención</h1>
+
+        <div class="atencion-detalle__cita-card">
+          <p class="atencion-detalle__cita-titulo">Datos de la cita</p>
+          <dl class="atencion-detalle__cita-info">
+            <div class="atencion-detalle__cita-fila">
+              <dt>Paciente</dt>
+              <dd th:text="${cita.mascotaNombre()}">Mascota</dd>
+            </div>
+            <div class="atencion-detalle__cita-fila">
+              <dt>Fecha</dt>
+              <dd th:text="${#temporals.format(cita.fecha(), 'dd/MM/yyyy')}">01/01/2025</dd>
+            </div>
+            <div class="atencion-detalle__cita-fila">
+              <dt>Hora</dt>
+              <dd th:text="${#temporals.format(cita.hora(), 'HH:mm')}">00:00</dd>
+            </div>
+            <div class="atencion-detalle__cita-fila">
+              <dt>Veterinario</dt>
+              <dd th:text="${cita.veterinarioNombre()}">Veterinario</dd>
+            </div>
+            <div class="atencion-detalle__cita-fila">
+              <dt>Especialidad</dt>
+              <dd th:text="${cita.especialidad()}">Especialidad</dd>
+            </div>
+          </dl>
+        </div>
+
+        <form class="atencion-detalle__form" method="post"
+              th:action="@{/panel/atenciones/{index}/guardar(index=${index})}">
+
+          <div class="atencion-campo">
+            <label class="atencion-campo__label">Diagnóstico</label>
+            <textarea th:if="${esVetDeLaCita}"
+                      class="atencion-campo__textarea"
+                      name="diagnostico"
+                      rows="4"
+                      th:text="${atencion?.diagnostico}"></textarea>
+            <p th:unless="${esVetDeLaCita}"
+               class="atencion-campo__valor"
+               th:classappend="${atencion?.diagnostico == null ? ' atencion-campo__vacio' : ''}"
+               th:text="${atencion?.diagnostico ?: 'Sin registrar'}">Sin registrar</p>
+          </div>
+
+          <div class="atencion-campo">
+            <label class="atencion-campo__label">Tratamiento</label>
+            <textarea th:if="${esVetDeLaCita}"
+                      class="atencion-campo__textarea"
+                      name="tratamiento"
+                      rows="4"
+                      th:text="${atencion?.tratamiento}"></textarea>
+            <p th:unless="${esVetDeLaCita}"
+               class="atencion-campo__valor"
+               th:classappend="${atencion?.tratamiento == null ? ' atencion-campo__vacio' : ''}"
+               th:text="${atencion?.tratamiento ?: 'Sin registrar'}">Sin registrar</p>
+          </div>
+
+          <div class="atencion-campo">
+            <label class="atencion-campo__label">Medicamentos recetados</label>
+            <textarea th:if="${esVetDeLaCita}"
+                      class="atencion-campo__textarea"
+                      name="medicamentos"
+                      rows="4"
+                      th:text="${atencion?.medicamentos}"></textarea>
+            <p th:unless="${esVetDeLaCita}"
+               class="atencion-campo__valor"
+               th:classappend="${atencion?.medicamentos == null ? ' atencion-campo__vacio' : ''}"
+               th:text="${atencion?.medicamentos ?: 'Sin registrar'}">Sin registrar</p>
+          </div>
+
+          <div class="atencion-campo">
+            <label class="atencion-campo__label">Notas médicas del paciente</label>
+            <textarea th:if="${esVetDeLaCita}"
+                      class="atencion-campo__textarea"
+                      name="notasMedicas"
+                      rows="4"
+                      th:text="${atencion?.notasMedicas}"></textarea>
+            <p th:unless="${esVetDeLaCita}"
+               class="atencion-campo__valor"
+               th:classappend="${atencion?.notasMedicas == null ? ' atencion-campo__vacio' : ''}"
+               th:text="${atencion?.notasMedicas ?: 'Sin registrar'}">Sin registrar</p>
+          </div>
+
+          <div class="atencion-detalle__acciones">
+            <button th:if="${esVetDeLaCita}" type="submit" class="btn btn--secondary">Guardar cambios</button>
+            <button type="button" class="btn btn--primary">Generar factura</button>
+          </div>
+
+        </form>
+
+      </div>
+    </main>
+  </div>
+</body>
+
+</html>

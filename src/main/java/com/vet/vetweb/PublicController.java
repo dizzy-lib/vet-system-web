@@ -11,9 +11,12 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.List;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -177,5 +180,31 @@ public class PublicController {
       }
 
       return "pages/agenda/agenda-hoy";
+  }
+
+  @GetMapping("/panel/atenciones")
+  public String verAtenciones(Model model) {
+      model.addAttribute("atenciones", citaService.listar());
+      return "pages/atenciones/atenciones";
+  }
+
+  @GetMapping("/panel/atenciones/{index}")
+  public String verAtencion(@PathVariable int index, Authentication authentication, Model model) {
+      List<Cita> citas = citaService.listar();
+      if (index < 0 || index >= citas.size()) {
+          return "redirect:/panel/atenciones";
+      }
+      Cita cita = citas.get(index);
+      model.addAttribute("cita", cita);
+      model.addAttribute("index", index);
+
+      boolean esVet = authentication.getAuthorities().stream()
+          .anyMatch(a -> a.getAuthority().equals(Role.VET.authority()));
+      boolean esVetDeLaCita = esVet && veterinarioService.buscarPorUsername(authentication.getName())
+          .map(vet -> vet.nombre().equals(cita.veterinarioNombre()))
+          .orElse(false);
+      model.addAttribute("esVetDeLaCita", esVetDeLaCita);
+
+      return "pages/atenciones/ver";
   }
 }

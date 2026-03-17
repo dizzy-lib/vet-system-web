@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:replace="~{layouts/panel-layout :: head('Atenciones - VetSystem', ~{::link})}">
+  <link rel="stylesheet" th:href="@{/css/atomos.css}">
+  <link rel="stylesheet" th:href="@{/css/atenciones.css}">
+</head>
+
+<body>
+  <div th:replace="~{components/notification :: notification}"></div>
+
+  <div class="panel">
+    <header th:replace="~{layouts/panel-layout :: header}"></header>
+
+    <main class="main-content">
+      <h1>Atenciones</h1>
+
+      <div th:if="${atenciones.isEmpty()}" class="atenciones-sin-resultados">
+        No hay atenciones registradas.
+      </div>
+
+      <ul th:unless="${atenciones.isEmpty()}" class="atenciones-lista">
+        <li th:each="cita, citaStat : ${atenciones}" class="atencion-card">
+
+          <div class="atencion-card__fecha">
+            <span class="atencion-card__fecha-dia"
+                  th:text="${#temporals.format(cita.fecha(), 'dd MMM', new java.util.Locale('es'))}">01 ene</span>
+            <span class="atencion-card__fecha-hora"
+                  th:text="${#temporals.format(cita.hora(), 'HH:mm')}">00:00</span>
+          </div>
+
+          <div class="atencion-card__info">
+            <span class="atencion-card__mascota" th:text="${cita.mascotaNombre()}">Mascota</span>
+            <span class="atencion-card__especialidad" th:text="${cita.especialidad()}">Especialidad</span>
+          </div>
+
+          <div class="atencion-card__vet">
+            <span th:text="${cita.veterinarioNombre()}">Veterinario</span>
+          </div>
+
+          <a th:href="@{/panel/atenciones/{index}(index=${citaStat.index})}"
+             class="btn btn--secondary atencion-card__btn">Ver atención</a>
+
+        </li>
+      </ul>
+
+    </main>
+  </div>
+</body>
+
+</html>

@@ -1,0 +1,200 @@
+/* ======= LISTA DE ATENCIONES ======= */
+
+.atenciones-sin-resultados {
+  font-size: 0.9rem;
+  color: var(--dusty-denim);
+  padding: 1rem;
+  border: 1px dashed var(--dusty-denim);
+  border-radius: 6px;
+  text-align: center;
+  max-width: 700px;
+  margin-top: 1.5rem;
+}
+
+.atenciones-lista {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin-top: 1.5rem;
+  max-width: 780px;
+}
+
+.atencion-card {
+  display: grid;
+  grid-template-columns: 5rem 1fr auto auto;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.9rem 1.25rem;
+  background-color: #fff;
+  border: 1px solid var(--dusty-denim);
+  border-radius: 8px;
+}
+
+.atencion-card__fecha {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.1rem;
+}
+
+.atencion-card__fecha-dia {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--prussian-blue);
+  text-transform: capitalize;
+  white-space: nowrap;
+}
+
+.atencion-card__fecha-hora {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--dusk-blue);
+  white-space: nowrap;
+}
+
+.atencion-card__info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.atencion-card__mascota {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--ink-black);
+}
+
+.atencion-card__especialidad {
+  font-size: 0.8rem;
+  color: var(--dusk-blue);
+  text-transform: capitalize;
+}
+
+.atencion-card__vet {
+  font-size: 0.82rem;
+  color: var(--dusty-denim);
+  white-space: nowrap;
+}
+
+/* ======= DETALLE DE ATENCIÓN ======= */
+
+.atencion-back-link {
+  display: inline-block;
+  font-size: 0.85rem;
+  color: var(--dusk-blue);
+  text-decoration: none;
+  margin-bottom: 1rem;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.atencion-detalle {
+  max-width: 720px;
+}
+
+.atencion-detalle__cita-card {
+  background-color: #f4f6f9;
+  border: 1px solid var(--dusty-denim);
+  border-radius: 8px;
+  padding: 1.25rem 1.5rem;
+  margin-top: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.atencion-detalle__cita-titulo {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--dusty-denim);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 0.75rem;
+}
+
+.atencion-detalle__cita-info {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 0.75rem 1.5rem;
+}
+
+.atencion-detalle__cita-fila {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+
+  & dt {
+    font-size: 0.75rem;
+    color: var(--dusty-denim);
+    font-weight: 500;
+  }
+
+  & dd {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--ink-black);
+    text-transform: capitalize;
+  }
+}
+
+.atencion-detalle__form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.atencion-campo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.atencion-campo__label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--ink-black);
+}
+
+.atencion-campo__textarea {
+  border: 1px solid var(--dusty-denim);
+  border-radius: 4px;
+  padding: 0.6rem 0.75rem;
+  font-size: 0.95rem;
+  font-family: inherit;
+  resize: vertical;
+  line-height: 1.5;
+
+  &:focus {
+    outline: none;
+    border-color: var(--dusk-blue);
+  }
+}
+
+.atencion-campo__valor {
+  font-size: 0.95rem;
+  color: var(--ink-black);
+  line-height: 1.6;
+  padding: 0.6rem 0.75rem;
+  background-color: #f4f6f9;
+  border: 1px solid var(--alabaster-grey);
+  border-radius: 4px;
+  min-height: 5rem;
+  white-space: pre-wrap;
+  margin: 0;
+}
+
+.atencion-campo__vacio {
+  color: var(--dusty-denim);
+  font-style: italic;
+}
+
+.atencion-detalle__acciones {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 0.75rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--alabaster-grey);
+  margin-top: 0.5rem;
+}
