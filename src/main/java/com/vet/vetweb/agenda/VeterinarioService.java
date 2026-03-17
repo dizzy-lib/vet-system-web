@@ -5,16 +5,17 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class VeterinarioService {
 
     private final List<Veterinario> veterinarios = List.of(
-        new Veterinario("Dr. Carlos Mendoza", "general"),
-        new Veterinario("Dra. Ana Rojas", "general"),
-        new Veterinario("Dr. Pablo Soto", "cardiologia"),
-        new Veterinario("Dra. María Fuentes", "nutricion"),
-        new Veterinario("Dr. Luis Herrera", "cardiologia")
+        new Veterinario("Dr. Carlos Mendoza", "general",    "vet@vet.cl"),
+        new Veterinario("Dra. Ana Rojas",      "general",    null),
+        new Veterinario("Dr. Pablo Soto",      "cardiologia", null),
+        new Veterinario("Dra. María Fuentes",  "nutricion",  null),
+        new Veterinario("Dr. Luis Herrera",    "cardiologia", null)
     );
 
     private final List<LocalTime> horasDisponibles = List.of(
@@ -31,5 +32,11 @@ public class VeterinarioService {
             .filter(v -> v.especialidad().equals(especialidad))
             .map(v -> new DisponibilidadVeterinario(v, horasDisponibles))
             .toList();
+    }
+
+    public Optional<Veterinario> buscarPorUsername(String username) {
+        return veterinarios.stream()
+            .filter(v -> username.equals(v.username()))
+            .findFirst();
     }
 }

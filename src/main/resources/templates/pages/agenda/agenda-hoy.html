@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:replace="~{layouts/panel-layout :: head('Agenda de hoy - VetSystem', ~{::link})}">
+  <link rel="stylesheet" th:href="@{/css/agenda.css}">
+</head>
+
+<body>
+  <div th:replace="~{components/notification :: notification}"></div>
+
+  <div class="panel">
+    <header th:replace="~{layouts/panel-layout :: header}"></header>
+
+    <main class="main-content">
+
+      <div class="agenda-hoy-header">
+        <h1>Agenda de hoy</h1>
+        <span class="agenda-hoy-header__fecha" th:text="${fechaHoy}">lunes 16 de marzo 2026</span>
+      </div>
+
+      <p th:if="${soloMiAgenda}" class="agenda-hoy-subtitulo">Mostrando tus citas del día.</p>
+
+      <div th:if="${citas.isEmpty()}" class="agenda-sin-resultados">
+        No hay citas programadas para hoy.
+      </div>
+
+      <ul th:unless="${citas.isEmpty()}" class="agenda-hoy-lista">
+        <li th:each="cita : ${citas}" class="agenda-hoy-card">
+
+          <div class="agenda-hoy-card__hora">
+            <span th:text="${#temporals.format(cita.hora(), 'HH:mm')}">00:00</span>
+          </div>
+
+          <div class="agenda-hoy-card__info">
+            <span class="agenda-hoy-card__mascota" th:text="${cita.mascotaNombre()}">Mascota</span>
+            <span class="agenda-hoy-card__especialidad" th:text="${cita.especialidad()}">Especialidad</span>
+          </div>
+
+          <div class="agenda-hoy-card__vet" th:unless="${soloMiAgenda}">
+            <span th:text="${cita.veterinarioNombre()}">Veterinario</span>
+          </div>
+
+          <span class="agenda-hoy-card__badge">Programada</span>
+
+        </li>
+      </ul>
+
+    </main>
+  </div>
+</body>
+
+</html>

@@ -1,3 +1,3 @@
 package com.vet.vetweb.agenda;
 
-public record Veterinario(String nombre, String especialidad) {}
+public record Veterinario(String nombre, String especialidad, String username) {}

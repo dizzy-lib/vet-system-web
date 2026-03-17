@@ -17,6 +17,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 
 @Controller
 public class PublicController {
@@ -152,5 +154,28 @@ public class PublicController {
       redirectAttributes.addFlashAttribute("notificacionTipo", "success");
       redirectAttributes.addFlashAttribute("notificacionMensaje", "Cita agendada correctamente para " + mascotaNombre + " el " + fecha + " a las " + hora + ".");
       return "redirect:/panel/agenda/solicitar";
+  }
+
+  @GetMapping("/panel/agenda/hoy")
+  public String agendaHoy(Authentication authentication, Model model) {
+      DateTimeFormatter fmt = DateTimeFormatter.ofPattern("EEEE d 'de' MMMM yyyy", Locale.of("es", "CL"));
+      model.addAttribute("fechaHoy", LocalDate.now().format(fmt));
+
+      boolean esVet = authentication.getAuthorities().stream()
+          .anyMatch(a -> a.getAuthority().equals(Role.VET.authority()));
+
+      if (esVet) {
+          veterinarioService.buscarPorUsername(authentication.getName())
+              .ifPresentOrElse(
+                  vet -> model.addAttribute("citas", citaService.listarHoyPorVet(vet.nombre())),
+                  ()  -> model.addAttribute("citas", java.util.List.of())
+              );
+          model.addAttribute("soloMiAgenda", true);
+      } else {
+          model.addAttribute("citas", citaService.listarHoy());
+          model.addAttribute("soloMiAgenda", false);
+      }
+
+      return "pages/agenda/agenda-hoy";
   }
 }

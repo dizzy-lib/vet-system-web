@@ -88,6 +88,88 @@
   margin-top: 1.5rem;
 }
 
+.agenda-hoy-header {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  margin-bottom: 0.25rem;
+}
+
+.agenda-hoy-header__fecha {
+  font-size: 0.85rem;
+  color: var(--dusty-denim);
+  text-transform: capitalize;
+}
+
+.agenda-hoy-subtitulo {
+  font-size: 0.85rem;
+  color: var(--dusty-denim);
+  margin-bottom: 1rem;
+}
+
+.agenda-hoy-lista {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin-top: 1.5rem;
+  max-width: 680px;
+}
+
+.agenda-hoy-card {
+  display: grid;
+  grid-template-columns: 4rem 1fr auto auto;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.9rem 1.25rem;
+  background-color: #fff;
+  border: 1px solid var(--dusty-denim);
+  border-radius: 8px;
+}
+
+.agenda-hoy-card__hora {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--prussian-blue);
+  white-space: nowrap;
+}
+
+.agenda-hoy-card__info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.agenda-hoy-card__mascota {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--ink-black);
+}
+
+.agenda-hoy-card__especialidad {
+  font-size: 0.8rem;
+  color: var(--dusk-blue);
+  text-transform: capitalize;
+}
+
+.agenda-hoy-card__vet {
+  font-size: 0.82rem;
+  color: var(--dusty-denim);
+  white-space: nowrap;
+}
+
+.agenda-hoy-card__badge {
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 0.25rem 0.6rem;
+  border-radius: 999px;
+  background-color: #1a3028;
+  color: #52b788;
+  white-space: nowrap;
+}
+
 .confirmacion-card {
   max-width: 480px;
   margin-top: 1.5rem;
